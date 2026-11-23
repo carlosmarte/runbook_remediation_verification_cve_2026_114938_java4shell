@@ -1,0 +1,12 @@
+[
+  {"line": 48213, "analysis": {"token": "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVowMTIzNDU2Nzg5YWJjZGVmZ2hpamtsbW5vcA====", "length": 76, "alphabet": "std", "pad_count": 4, "body_len": 72, "strict_valid": false,
+     "anomalies": ["excess_padding"], "edge_rules_hit": ["J4S-EDGE-01"], "suspicious": true, "looks_like_jwt": false}},
+  {"line": 48214, "analysis": {"token": "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVowMTIzNDU2Nzg5YWJjZGVm=Z2hpamtsbW5vcHFyc3R1dnd4eXo", "length": 75, "alphabet": "std", "pad_count": 1, "body_len": 74, "strict_valid": false,
+     "anomalies": ["padding_inside_body"], "edge_rules_hit": ["J4S-EDGE-02"], "suspicious": true, "looks_like_jwt": false}},
+  {"line": 48219, "analysis": {"token": "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVowMTIzNDU2Nzg5YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXowMTIzNDU2Nzg5=", "length": 89, "alphabet": "std", "pad_count": 1, "body_len": 88, "strict_valid": false,
+     "anomalies": ["length_not_multiple_of_4"], "edge_rules_hit": ["J4S-EDGE-03"], "suspicious": true, "looks_like_jwt": false}},
+  {"line": 48877, "analysis": {"token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c", "length": 149, "alphabet": "url", "pad_count": 0, "body_len": 149, "strict_valid": true,
+     "anomalies": [], "edge_rules_hit": [], "suspicious": false, "looks_like_jwt": true}},
+  {"line": 49102, "analysis": {"token": "PHNhbWxwOlJlc3BvbnNlIHhtbG5zOnNhbWxwPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6cHJvdG9jb2wiPg==", "length": 92, "alphabet": "std", "pad_count": 2, "body_len": 90, "strict_valid": true,
+     "anomalies": [], "edge_rules_hit": [], "suspicious": false, "looks_like_jwt": false}}
+]

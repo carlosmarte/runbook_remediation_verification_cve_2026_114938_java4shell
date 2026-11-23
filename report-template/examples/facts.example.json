@@ -1,0 +1,1386 @@
+{
+  "meta": {
+    "org": "Acme Corp (fictional example)",
+    "scope": "Payments, Identity and Finance Ops production",
+    "report_id": "J4S-20261124",
+    "report_date": "2026-11-24",
+    "period": "2026-11-17 to 2026-11-24",
+    "prepared_by": "Platform Security",
+    "owner": "CISO",
+    "distribution": "Security leadership, engineering directors",
+    "classification": "Internal / Confidential",
+    "next_review": "2026-12-01",
+    "cve": "CVE-2026-114938",
+    "alias": "Java4Shell",
+    "upstream_id": "JDK-8393212",
+    "cwe": "CWE-122 / CWE-787",
+    "cvss31": "8.1 High",
+    "cvss40": "9.2 Critical",
+    "disclosure_date": "2026-11-17",
+    "days_since_disclosure": 7,
+    "baselines": "17.0.21.0.3+ / 21.0.13.1+ / 25.0.5.1+ / 27.0.1.1+",
+    "mitigation_flag": "-XX:-UseBASE64Intrinsics",
+    "sla_mitigate_days": 2,
+    "sla_patch_days": 30,
+    "sla_mitigate_due": "2026-11-19",
+    "sla_patch_due": "2026-12-17",
+    "sla_mitigate_breached": true,
+    "sla_patch_breached": false,
+    "generated_at": "2026-11-20 21:44 UTC"
+  },
+  "fleet": {
+    "available": true,
+    "hosts": 2,
+    "hosts_vbmi": 1,
+    "jvms": 5,
+    "jvms_vbmi": 3,
+    "exposed_vbmi": 1,
+    "unverified": 1,
+    "mitigated_flag": 1,
+    "patched": 2,
+    "unknown": 0,
+    "missing_flag": 3,
+    "vulnerable_versions": 3,
+    "exposure_rate": 0.2,
+    "mitigation_coverage": 0.6,
+    "patch_coverage": 0.4,
+    "vbmi_host_share": 0.5,
+    "hosts_red": 1,
+    "by_verdict": {
+      "EXPOSED_ON_VBMI_HOST": 1,
+      "MITIGATED_BY_FLAG": 1,
+      "PATCHED_OR_SAFE_VERSION": 2,
+      "UNVERIFIED_ON_HOST": 1
+    },
+    "hosts_rows": [
+      {
+        "host": "web-01.prod.acme.example",
+        "arch": "x86_64",
+        "vbmi": true,
+        "jvms": 3,
+        "exposed": 1,
+        "unverified": 0,
+        "mitigated": 1,
+        "patched": 1,
+        "containers": 2,
+        "status": "RED"
+      },
+      {
+        "host": "batch-02.prod.acme.example",
+        "arch": "x86_64",
+        "vbmi": false,
+        "jvms": 2,
+        "exposed": 0,
+        "unverified": 1,
+        "mitigated": 0,
+        "patched": 1,
+        "containers": 1,
+        "status": "AMBER"
+      }
+    ],
+    "jvms_rows": [
+      {
+        "host": "web-01.prod.acme.example",
+        "pid": 1842,
+        "source": "container:payments-api",
+        "version": "21.0.12",
+        "version_status": "VULN_RANGE",
+        "flag_status": "MISSING_FLAG",
+        "verdict": "EXPOSED_ON_VBMI_HOST",
+        "cmd": "java -Xmx2g -jar /app/payments-api.jar",
+        "vbmi": true
+      },
+      {
+        "host": "batch-02.prod.acme.example",
+        "pid": 912,
+        "source": "host",
+        "version": "17.0.9",
+        "version_status": "VULN_RANGE",
+        "flag_status": "MISSING_FLAG",
+        "verdict": "UNVERIFIED_ON_HOST",
+        "cmd": "java -Xmx8g -cp /opt/batch/lib/* com.acme.batch.NightlyReconciliation",
+        "vbmi": false
+      },
+      {
+        "host": "web-01.prod.acme.example",
+        "pid": 2210,
+        "source": "container:auth-gateway",
+        "version": "21.0.12",
+        "version_status": "VULN_RANGE",
+        "flag_status": "MITIGATED_FLAG",
+        "verdict": "MITIGATED_BY_FLAG",
+        "cmd": "java -XX:-UseBASE64Intrinsics -Xmx1g -jar /app/auth-gateway.jar",
+        "vbmi": true
+      },
+      {
+        "host": "batch-02.prod.acme.example",
+        "pid": 1401,
+        "source": "container:report-renderer",
+        "version": "25.0.5.1",
+        "version_status": "PATCHED_OR_UNAFFECTED",
+        "flag_status": "MITIGATED_FLAG",
+        "verdict": "PATCHED_OR_SAFE_VERSION",
+        "cmd": "java -XX:-UseBASE64Intrinsics -jar /app/report-renderer.jar",
+        "vbmi": false
+      },
+      {
+        "host": "web-01.prod.acme.example",
+        "pid": 3105,
+        "source": "host",
+        "version": "21.0.13.1",
+        "version_status": "PATCHED_OR_UNAFFECTED",
+        "flag_status": "MISSING_FLAG",
+        "verdict": "PATCHED_OR_SAFE_VERSION",
+        "cmd": "/usr/lib/jvm/temurin-21-jdk/bin/java -jar /opt/agent/metrics-agent.jar",
+        "vbmi": true
+      }
+    ],
+    "exposed_rows": [
+      {
+        "host": "web-01.prod.acme.example",
+        "pid": 1842,
+        "source": "container:payments-api",
+        "version": "21.0.12",
+        "version_status": "VULN_RANGE",
+        "flag_status": "MISSING_FLAG",
+        "verdict": "EXPOSED_ON_VBMI_HOST",
+        "cmd": "java -Xmx2g -jar /app/payments-api.jar",
+        "vbmi": true
+      }
+    ],
+    "unverified_rows": [
+      {
+        "host": "batch-02.prod.acme.example",
+        "pid": 912,
+        "source": "host",
+        "version": "17.0.9",
+        "version_status": "VULN_RANGE",
+        "flag_status": "MISSING_FLAG",
+        "verdict": "UNVERIFIED_ON_HOST",
+        "cmd": "java -Xmx8g -cp /opt/batch/lib/* com.acme.batch.NightlyReconciliation",
+        "vbmi": false
+      }
+    ]
+  },
+  "trend": {
+    "available": true,
+    "improved": 1,
+    "regressed": 0,
+    "unchanged": 1,
+    "new": 3,
+    "gone": 1,
+    "improved_rows": [
+      {
+        "host": "web-01.prod.acme.example",
+        "pid": 3105,
+        "source": "host",
+        "version": "21.0.13.1",
+        "version_status": "PATCHED_OR_UNAFFECTED",
+        "flag_status": "MISSING_FLAG",
+        "verdict": "PATCHED_OR_SAFE_VERSION",
+        "cmd": "/usr/lib/jvm/temurin-21-jdk/bin/java -jar /opt/agent/metrics-agent.jar",
+        "vbmi": true,
+        "before": "EXPOSED_ON_VBMI_HOST"
+      }
+    ],
+    "regressed_rows": [],
+    "new_rows": [
+      {
+        "host": "batch-02.prod.acme.example",
+        "pid": 912,
+        "source": "host",
+        "version": "17.0.9",
+        "version_status": "VULN_RANGE",
+        "flag_status": "MISSING_FLAG",
+        "verdict": "UNVERIFIED_ON_HOST",
+        "cmd": "java -Xmx8g -cp /opt/batch/lib/* com.acme.batch.NightlyReconciliation",
+        "vbmi": false
+      },
+      {
+        "host": "web-01.prod.acme.example",
+        "pid": 2210,
+        "source": "container:auth-gateway",
+        "version": "21.0.12",
+        "version_status": "VULN_RANGE",
+        "flag_status": "MITIGATED_FLAG",
+        "verdict": "MITIGATED_BY_FLAG",
+        "cmd": "java -XX:-UseBASE64Intrinsics -Xmx1g -jar /app/auth-gateway.jar",
+        "vbmi": true
+      },
+      {
+        "host": "batch-02.prod.acme.example",
+        "pid": 1401,
+        "source": "container:report-renderer",
+        "version": "25.0.5.1",
+        "version_status": "PATCHED_OR_UNAFFECTED",
+        "flag_status": "MITIGATED_FLAG",
+        "verdict": "PATCHED_OR_SAFE_VERSION",
+        "cmd": "java -XX:-UseBASE64Intrinsics -jar /app/report-renderer.jar",
+        "vbmi": false
+      }
+    ],
+    "exposed_before": 3,
+    "exposed_after": 1,
+    "mitigation_before": 0.0,
+    "mitigation_after": 0.6,
+    "patch_before": 0.0,
+    "patch_after": 0.4
+  },
+  "repos": {
+    "available": true,
+    "scope": "org:acme",
+    "generated_at": "2026-11-24T08:12:44",
+    "total": 7,
+    "java": 6,
+    "by_verdict": {
+      "EXPOSED": 1,
+      "EXPLICITLY_ENABLED": 1,
+      "MITIGATED_FLAG": 1,
+      "UNVERIFIED_FLOATING": 1,
+      "UNVERIFIED_NO_PIN": 1,
+      "PATCHED": 1,
+      "NOT_JAVA": 1
+    },
+    "exposed": 1,
+    "explicitly_enabled": 1,
+    "mitigated_flag": 1,
+    "unverified_floating": 1,
+    "unverified_no_pin": 1,
+    "patched": 1,
+    "not_java": 1,
+    "error": 0,
+    "blocking": 2,
+    "with_gate": 3,
+    "gate_adoption": 0.5,
+    "exposed_share": 0.3333,
+    "floating_share": 0.1667,
+    "unverified_share": 0.3333,
+    "rows": [
+      {
+        "repo": "acme/payments-api",
+        "url": "https://github.com/acme/payments-api",
+        "verdict": "EXPOSED",
+        "pins": "21.0.12 (VULN_RANGE)",
+        "flag": "MISSING",
+        "gate": false,
+        "hits": 2,
+        "preauth": 1,
+        "reason": "Dockerfile:1 pins eclipse-temurin:21.0.12_7-jre-jammy -> VULN_RANGE (Below 21.0.13.1 baseline)",
+        "actions": [
+          "Set JAVA_TOOL_OPTIONS=-XX:-UseBASE64Intrinsics in the runtime (Dockerfile ENV / manifest env / service unit) now",
+          "Upgrade the pinned JDK to 21.0.13.1 or newer (vendor equivalent)",
+          "No CI gate referencing CVE-2026-114938 found: add scripts/gate_cve_2026_114938.py to the pipeline (runbook \u00a77.2)"
+        ],
+        "language": "Java",
+        "pushed_at": "2026-11-23",
+        "archived": false,
+        "is_java": true
+      },
+      {
+        "repo": "acme/legacy-sso",
+        "url": "https://github.com/acme/legacy-sso",
+        "verdict": "EXPLICITLY_ENABLED",
+        "pins": "19-jdk (VULN_RANGE)",
+        "flag": "EXPLICITLY_ENABLED",
+        "gate": false,
+        "hits": 1,
+        "preauth": 1,
+        "reason": "deploy/k8s/deployment.yaml:22 pins openjdk:19-jdk -> VULN_RANGE (JDK 19 is an EOL line; every build is vulnerable and no patch exists)",
+        "actions": [
+          "Remove -XX:+UseBASE64Intrinsics (J4S-FLAG-04); it defeats the mitigation and any gate",
+          "JDK 19 is EOL with no patch: migrate to 21 or 25"
+        ],
+        "language": "Java",
+        "pushed_at": "2026-09-02",
+        "archived": false,
+        "is_java": true
+      },
+      {
+        "repo": "acme/auth-gateway",
+        "url": "https://github.com/acme/auth-gateway",
+        "verdict": "MITIGATED_FLAG",
+        "pins": "21.0.5 (VULN_RANGE)",
+        "flag": "ACTIVE",
+        "gate": true,
+        "hits": 0,
+        "preauth": 0,
+        "reason": "Dockerfile:3 pins amazoncorretto:21.0.5 -> VULN_RANGE (Below 21.0.13.1 baseline)",
+        "actions": [
+          "Mitigation flag present but the JDK is still vulnerable: schedule the upgrade and keep the flag until then"
+        ],
+        "language": "Kotlin",
+        "pushed_at": "2026-11-22",
+        "archived": false,
+        "is_java": true
+      },
+      {
+        "repo": "acme/report-renderer",
+        "url": "https://github.com/acme/report-renderer",
+        "verdict": "UNVERIFIED_FLOATING",
+        "pins": "25-jre (FLOATING_PATCHABLE)",
+        "flag": "MISSING",
+        "gate": true,
+        "hits": 0,
+        "preauth": 0,
+        "reason": "Dockerfile:1 floating pin eclipse-temurin:25-jre -> verify resolved build",
+        "actions": [
+          "Resolve the floating/unknown image or package to an exact version (docker run IMAGE java -version; image digest created after 2026-11-17 patch release)"
+        ],
+        "language": "Java",
+        "pushed_at": "2026-11-20",
+        "archived": false,
+        "is_java": true
+      },
+      {
+        "repo": "acme/batch-recon",
+        "url": "https://github.com/acme/batch-recon",
+        "verdict": "UNVERIFIED_NO_PIN",
+        "pins": "-",
+        "flag": "MISSING",
+        "gate": false,
+        "hits": 0,
+        "preauth": 0,
+        "reason": "Java workload without a runtime JDK pin in this repository (runtime defined elsewhere: platform image, host JDK, Helm values repo)",
+        "actions": [
+          "Locate where this code runs and audit that host/image with scripts/verify_java4shell_runtime.sh or helpers/j4s_k8s.sh",
+          "Update developer/CI JDK pins (17.0.9-amzn) to the patched baseline as well"
+        ],
+        "language": "Java",
+        "pushed_at": "2026-10-11",
+        "archived": false,
+        "is_java": true
+      },
+      {
+        "repo": "acme/notifications",
+        "url": "https://github.com/acme/notifications",
+        "verdict": "PATCHED",
+        "pins": "21.0.13.1 (PATCHED_OR_UNAFFECTED)",
+        "flag": "MISSING",
+        "gate": true,
+        "hits": 0,
+        "preauth": 0,
+        "reason": "Dockerfile:1 eclipse-temurin:21.0.13.1_2-jre-jammy -> PATCHED_OR_UNAFFECTED",
+        "actions": [],
+        "language": "Java",
+        "pushed_at": "2026-11-21",
+        "archived": false,
+        "is_java": true
+      }
+    ],
+    "exposed_rows": [
+      {
+        "repo": "acme/payments-api",
+        "url": "https://github.com/acme/payments-api",
+        "verdict": "EXPOSED",
+        "pins": "21.0.12 (VULN_RANGE)",
+        "flag": "MISSING",
+        "gate": false,
+        "hits": 2,
+        "preauth": 1,
+        "reason": "Dockerfile:1 pins eclipse-temurin:21.0.12_7-jre-jammy -> VULN_RANGE (Below 21.0.13.1 baseline)",
+        "actions": [
+          "Set JAVA_TOOL_OPTIONS=-XX:-UseBASE64Intrinsics in the runtime (Dockerfile ENV / manifest env / service unit) now",
+          "Upgrade the pinned JDK to 21.0.13.1 or newer (vendor equivalent)",
+          "No CI gate referencing CVE-2026-114938 found: add scripts/gate_cve_2026_114938.py to the pipeline (runbook \u00a77.2)"
+        ],
+        "language": "Java",
+        "pushed_at": "2026-11-23",
+        "archived": false,
+        "is_java": true
+      },
+      {
+        "repo": "acme/legacy-sso",
+        "url": "https://github.com/acme/legacy-sso",
+        "verdict": "EXPLICITLY_ENABLED",
+        "pins": "19-jdk (VULN_RANGE)",
+        "flag": "EXPLICITLY_ENABLED",
+        "gate": false,
+        "hits": 1,
+        "preauth": 1,
+        "reason": "deploy/k8s/deployment.yaml:22 pins openjdk:19-jdk -> VULN_RANGE (JDK 19 is an EOL line; every build is vulnerable and no patch exists)",
+        "actions": [
+          "Remove -XX:+UseBASE64Intrinsics (J4S-FLAG-04); it defeats the mitigation and any gate",
+          "JDK 19 is EOL with no patch: migrate to 21 or 25"
+        ],
+        "language": "Java",
+        "pushed_at": "2026-09-02",
+        "archived": false,
+        "is_java": true
+      }
+    ],
+    "unverified_rows": [
+      {
+        "repo": "acme/report-renderer",
+        "url": "https://github.com/acme/report-renderer",
+        "verdict": "UNVERIFIED_FLOATING",
+        "pins": "25-jre (FLOATING_PATCHABLE)",
+        "flag": "MISSING",
+        "gate": true,
+        "hits": 0,
+        "preauth": 0,
+        "reason": "Dockerfile:1 floating pin eclipse-temurin:25-jre -> verify resolved build",
+        "actions": [
+          "Resolve the floating/unknown image or package to an exact version (docker run IMAGE java -version; image digest created after 2026-11-17 patch release)"
+        ],
+        "language": "Java",
+        "pushed_at": "2026-11-20",
+        "archived": false,
+        "is_java": true
+      },
+      {
+        "repo": "acme/batch-recon",
+        "url": "https://github.com/acme/batch-recon",
+        "verdict": "UNVERIFIED_NO_PIN",
+        "pins": "-",
+        "flag": "MISSING",
+        "gate": false,
+        "hits": 0,
+        "preauth": 0,
+        "reason": "Java workload without a runtime JDK pin in this repository (runtime defined elsewhere: platform image, host JDK, Helm values repo)",
+        "actions": [
+          "Locate where this code runs and audit that host/image with scripts/verify_java4shell_runtime.sh or helpers/j4s_k8s.sh",
+          "Update developer/CI JDK pins (17.0.9-amzn) to the patched baseline as well"
+        ],
+        "language": "Java",
+        "pushed_at": "2026-10-11",
+        "archived": false,
+        "is_java": true
+      }
+    ],
+    "mitigated_rows": [
+      {
+        "repo": "acme/auth-gateway",
+        "url": "https://github.com/acme/auth-gateway",
+        "verdict": "MITIGATED_FLAG",
+        "pins": "21.0.5 (VULN_RANGE)",
+        "flag": "ACTIVE",
+        "gate": true,
+        "hits": 0,
+        "preauth": 0,
+        "reason": "Dockerfile:3 pins amazoncorretto:21.0.5 -> VULN_RANGE (Below 21.0.13.1 baseline)",
+        "actions": [
+          "Mitigation flag present but the JDK is still vulnerable: schedule the upgrade and keep the flag until then"
+        ],
+        "language": "Kotlin",
+        "pushed_at": "2026-11-22",
+        "archived": false,
+        "is_java": true
+      }
+    ],
+    "without_gate": [
+      "acme/payments-api",
+      "acme/legacy-sso",
+      "acme/batch-recon"
+    ],
+    "source_hits": 3,
+    "preauth_hits": 2,
+    "repos_with_preauth": [
+      "acme/payments-api",
+      "acme/legacy-sso"
+    ]
+  },
+  "posture": {
+    "available": true,
+    "repos": 6,
+    "with_gate": 3,
+    "gate_required": 2,
+    "gate_passing": 2,
+    "gate_failing": 1,
+    "var_active": 1,
+    "var_reenabled": 1,
+    "cs_alerts": 2,
+    "dependabot": 0,
+    "rows": [
+      {
+        "repo": "acme/payments-api",
+        "lang": "Java",
+        "archived": "false",
+        "branch": "main",
+        "gate_workflow": "none",
+        "gate_last_run": "none",
+        "gate_required": "no",
+        "var_flag": "MISSING",
+        "code_scanning": "2",
+        "dependabot": "0",
+        "tracking": "1i/1pr"
+      },
+      {
+        "repo": "acme/legacy-sso",
+        "lang": "Java",
+        "archived": "false",
+        "branch": "master",
+        "gate_workflow": "none",
+        "gate_last_run": "none",
+        "gate_required": "unknown",
+        "var_flag": "EXPLICITLY_ENABLED",
+        "code_scanning": "n/a",
+        "dependabot": "n/a",
+        "tracking": "0i/0pr"
+      },
+      {
+        "repo": "acme/auth-gateway",
+        "lang": "Kotlin",
+        "archived": "false",
+        "branch": "main",
+        "gate_workflow": "cve-2026-114938-gate.yml",
+        "gate_last_run": "success 2026-11-23 main",
+        "gate_required": "yes",
+        "var_flag": "ACTIVE",
+        "code_scanning": "0",
+        "dependabot": "0",
+        "tracking": "1i/0pr"
+      },
+      {
+        "repo": "acme/report-renderer",
+        "lang": "Java",
+        "archived": "false",
+        "branch": "main",
+        "gate_workflow": "cve-2026-114938-gate.yml",
+        "gate_last_run": "failure 2026-11-22 main",
+        "gate_required": "no",
+        "var_flag": "NONE",
+        "code_scanning": "0",
+        "dependabot": "0",
+        "tracking": "0i/1pr"
+      },
+      {
+        "repo": "acme/batch-recon",
+        "lang": "Java",
+        "archived": "false",
+        "branch": "main",
+        "gate_workflow": "none",
+        "gate_last_run": "none",
+        "gate_required": "no",
+        "var_flag": "NONE",
+        "code_scanning": "n/a",
+        "dependabot": "0",
+        "tracking": "0i/0pr"
+      },
+      {
+        "repo": "acme/notifications",
+        "lang": "Java",
+        "archived": "false",
+        "branch": "main",
+        "gate_workflow": "cve-2026-114938-gate.yml",
+        "gate_last_run": "success 2026-11-21 main",
+        "gate_required": "yes",
+        "var_flag": "NONE",
+        "code_scanning": "0",
+        "dependabot": "0",
+        "tracking": "0i/0pr"
+      }
+    ],
+    "without_gate": [
+      "acme/payments-api",
+      "acme/legacy-sso",
+      "acme/batch-recon"
+    ]
+  },
+  "source": {
+    "available": true,
+    "root": "payments-api/src",
+    "total": 4,
+    "untrusted": 2,
+    "internal": 1,
+    "constant": 1,
+    "unknown": 0,
+    "preauth": 1,
+    "test": 1,
+    "prod": 3,
+    "files": 4,
+    "untrusted_prod": 2,
+    "rows": [
+      {
+        "file": "main/java/com/acme/pay/auth/BasicAuthFilter.java",
+        "line": 48,
+        "column": 22,
+        "call": "Base64.getDecoder().decode",
+        "argument": "authorization.substring(6)",
+        "input_kind": "DYNAMIC_UNTRUSTED",
+        "sources": [
+          "getHeader(\"Authorization\")"
+        ],
+        "preauth_context": true,
+        "is_test": false,
+        "reason": "argument derives from request header Authorization (J4S-SRC-03) in a servlet filter before authentication (J4S-SRC-04)",
+        "remediation": "Validate length %4, padding count <=2 and no mid-string '=' before decode; apply -XX:-UseBASE64Intrinsics; upgrade JDK"
+      },
+      {
+        "file": "main/java/com/acme/pay/webhook/SignatureVerifier.java",
+        "line": 77,
+        "column": 18,
+        "call": "Base64.getDecoder().decode",
+        "argument": "header",
+        "input_kind": "DYNAMIC_UNTRUSTED",
+        "sources": [
+          "getHeader(\"X-Signature\")"
+        ],
+        "preauth_context": false,
+        "is_test": false,
+        "reason": "argument derives from request header X-Signature (J4S-SRC-03)",
+        "remediation": "Validate before decode; compare signature length to the expected digest length first"
+      },
+      {
+        "file": "main/java/com/acme/pay/config/KeyLoader.java",
+        "line": 31,
+        "column": 30,
+        "call": "Base64.getMimeDecoder().decode",
+        "argument": "pem",
+        "input_kind": "DYNAMIC_INTERNAL",
+        "sources": [
+          "Files.readString(keyPath)"
+        ],
+        "preauth_context": false,
+        "is_test": false,
+        "reason": "argument read from a configured file path at start-up; operator-controlled",
+        "remediation": "Low priority; covered by the runtime flag/upgrade"
+      },
+      {
+        "file": "test/java/com/acme/pay/auth/BasicAuthFilterTest.java",
+        "line": 59,
+        "column": 20,
+        "call": "Base64.getDecoder().decode",
+        "argument": "\"dXNlcjpwYXNz\"",
+        "input_kind": "CONSTANT",
+        "sources": [],
+        "preauth_context": false,
+        "is_test": true,
+        "reason": "string literal argument in test code",
+        "remediation": "none"
+      }
+    ],
+    "untrusted_rows": [
+      {
+        "file": "main/java/com/acme/pay/auth/BasicAuthFilter.java",
+        "line": 48,
+        "column": 22,
+        "call": "Base64.getDecoder().decode",
+        "argument": "authorization.substring(6)",
+        "input_kind": "DYNAMIC_UNTRUSTED",
+        "sources": [
+          "getHeader(\"Authorization\")"
+        ],
+        "preauth_context": true,
+        "is_test": false,
+        "reason": "argument derives from request header Authorization (J4S-SRC-03) in a servlet filter before authentication (J4S-SRC-04)",
+        "remediation": "Validate length %4, padding count <=2 and no mid-string '=' before decode; apply -XX:-UseBASE64Intrinsics; upgrade JDK"
+      },
+      {
+        "file": "main/java/com/acme/pay/webhook/SignatureVerifier.java",
+        "line": 77,
+        "column": 18,
+        "call": "Base64.getDecoder().decode",
+        "argument": "header",
+        "input_kind": "DYNAMIC_UNTRUSTED",
+        "sources": [
+          "getHeader(\"X-Signature\")"
+        ],
+        "preauth_context": false,
+        "is_test": false,
+        "reason": "argument derives from request header X-Signature (J4S-SRC-03)",
+        "remediation": "Validate before decode; compare signature length to the expected digest length first"
+      }
+    ],
+    "review_rows": [
+      {
+        "file": "main/java/com/acme/pay/config/KeyLoader.java",
+        "line": 31,
+        "column": 30,
+        "call": "Base64.getMimeDecoder().decode",
+        "argument": "pem",
+        "input_kind": "DYNAMIC_INTERNAL",
+        "sources": [
+          "Files.readString(keyPath)"
+        ],
+        "preauth_context": false,
+        "is_test": false,
+        "reason": "argument read from a configured file path at start-up; operator-controlled",
+        "remediation": "Low priority; covered by the runtime flag/upgrade"
+      }
+    ],
+    "test_rows": [
+      {
+        "file": "test/java/com/acme/pay/auth/BasicAuthFilterTest.java",
+        "line": 59,
+        "column": 20,
+        "call": "Base64.getDecoder().decode",
+        "argument": "\"dXNlcjpwYXNz\"",
+        "input_kind": "CONSTANT",
+        "sources": [],
+        "preauth_context": false,
+        "is_test": true,
+        "reason": "string literal argument in test code",
+        "remediation": "none"
+      }
+    ],
+    "preauth_rows": [
+      {
+        "file": "main/java/com/acme/pay/auth/BasicAuthFilter.java",
+        "line": 48,
+        "column": 22,
+        "call": "Base64.getDecoder().decode",
+        "argument": "authorization.substring(6)",
+        "input_kind": "DYNAMIC_UNTRUSTED",
+        "sources": [
+          "getHeader(\"Authorization\")"
+        ],
+        "preauth_context": true,
+        "is_test": false,
+        "reason": "argument derives from request header Authorization (J4S-SRC-03) in a servlet filter before authentication (J4S-SRC-04)",
+        "remediation": "Validate length %4, padding count <=2 and no mid-string '=' before decode; apply -XX:-UseBASE64Intrinsics; upgrade JDK"
+      }
+    ]
+  },
+  "jars": {
+    "available": true,
+    "classes": 4,
+    "artifacts": 2,
+    "shaded": 1,
+    "test": 1,
+    "prod": 3,
+    "rows": [
+      {
+        "artifact_path": "payments-api/build/libs/payments-api-2.14.0.jar",
+        "entry_path": "BOOT-INF/lib/legacy-crypto-utils-3.1.jar!com/acme/shaded/java/util/Base64$Decoder.class",
+        "is_test_artifact": false,
+        "is_shaded": true,
+        "class_name": "com.acme.shaded.java.util.Base64$Decoder",
+        "method_name": "decode",
+        "method_descriptor": "(Ljava/lang/String;)[B",
+        "invoked_targets": [
+          "com/acme/shaded/java/util/Base64$Decoder.decode0:([BII[B)I"
+        ],
+        "constant_strings_sample": [],
+        "evidence_refs": [
+          "J4S-BC-05"
+        ]
+      },
+      {
+        "artifact_path": "payments-api/build/libs/payments-api-2.14.0.jar",
+        "entry_path": "BOOT-INF/classes/com/acme/pay/auth/BasicAuthFilter.class",
+        "is_test_artifact": false,
+        "is_shaded": false,
+        "class_name": "com.acme.pay.auth.BasicAuthFilter",
+        "method_name": "doFilter",
+        "method_descriptor": "(Ljavax/servlet/ServletRequest;Ljavax/servlet/ServletResponse;Ljavax/servlet/FilterChain;)V",
+        "invoked_targets": [
+          "java/util/Base64.getDecoder:()Ljava/util/Base64$Decoder;",
+          "java/util/Base64$Decoder.decode:(Ljava/lang/String;)[B"
+        ],
+        "constant_strings_sample": [
+          "Authorization",
+          "Basic "
+        ],
+        "evidence_refs": [
+          "J4S-BC-02",
+          "J4S-BC-03"
+        ]
+      },
+      {
+        "artifact_path": "payments-api/build/libs/payments-api-2.14.0.jar",
+        "entry_path": "BOOT-INF/classes/com/acme/pay/webhook/SignatureVerifier.class",
+        "is_test_artifact": false,
+        "is_shaded": false,
+        "class_name": "com.acme.pay.webhook.SignatureVerifier",
+        "method_name": "verify",
+        "method_descriptor": "(Ljava/lang/String;[B)Z",
+        "invoked_targets": [
+          "java/util/Base64$Decoder.decode:(Ljava/lang/String;)[B"
+        ],
+        "constant_strings_sample": [
+          "X-Signature"
+        ],
+        "evidence_refs": [
+          "J4S-BC-03"
+        ]
+      },
+      {
+        "artifact_path": "payments-api/build/libs/payments-api-2.14.0-tests.jar",
+        "entry_path": "com/acme/pay/auth/BasicAuthFilterTest.class",
+        "is_test_artifact": true,
+        "is_shaded": false,
+        "class_name": "com.acme.pay.auth.BasicAuthFilterTest",
+        "method_name": "decodesBasicHeader",
+        "method_descriptor": "()V",
+        "invoked_targets": [
+          "java/util/Base64$Decoder.decode:(Ljava/lang/String;)[B"
+        ],
+        "constant_strings_sample": [
+          "dXNlcjpwYXNz"
+        ],
+        "evidence_refs": [
+          "J4S-BC-03",
+          "J4S-BC-04"
+        ]
+      }
+    ],
+    "artifact_rows": [
+      {
+        "artifact": "payments-api/build/libs/payments-api-2.14.0.jar",
+        "classes": 3,
+        "shaded": 1,
+        "test": false
+      },
+      {
+        "artifact": "payments-api/build/libs/payments-api-2.14.0-tests.jar",
+        "classes": 1,
+        "shaded": 0,
+        "test": true
+      }
+    ]
+  },
+  "gate": {
+    "available": true,
+    "status": "FAILED",
+    "passed": false,
+    "failed": true,
+    "count": 4,
+    "by_kind": {
+      "Dockerfile": 2,
+      "Manifest": 1,
+      "Reachability": 1
+    },
+    "violations": [
+      "[Dockerfile:payments-api/Dockerfile] JDK 21.0.12 (< 21.0.13.1) is unpatched",
+      "[Dockerfile:payments-api/Dockerfile] Missing -XX:-UseBASE64Intrinsics (or -XX:UseAVX=0..2) in ENV/ENTRYPOINT/CMD",
+      "[Manifest:payments-api/deploy/k8s/deployment.yaml] JVM workload missing -XX:-UseBASE64Intrinsics (e.g., via JAVA_TOOL_OPTIONS or container args)",
+      "[Reachability:reachability-findings.json] J4S-0001 is REACHABLE_HIGH in com.acme.pay.auth.BasicAuthFilter.doFilter (payments-api/build/libs/payments-api-2.14.0.jar)"
+    ],
+    "version_violations": [
+      "[Dockerfile:payments-api/Dockerfile] JDK 21.0.12 (< 21.0.13.1) is unpatched"
+    ],
+    "flag_violations": [
+      "[Dockerfile:payments-api/Dockerfile] Missing -XX:-UseBASE64Intrinsics (or -XX:UseAVX=0..2) in ENV/ENTRYPOINT/CMD"
+    ],
+    "reachability_violations": [
+      "[Reachability:reachability-findings.json] J4S-0001 is REACHABLE_HIGH in com.acme.pay.auth.BasicAuthFilter.doFilter (payments-api/build/libs/payments-api-2.14.0.jar)"
+    ]
+  },
+  "crashes": {
+    "available": true,
+    "files": 3,
+    "likely": 1,
+    "possible": 1,
+    "unlikely": 1,
+    "rows": [
+      {
+        "file": "/var/log/payments-api/hs_err_pid1702.log",
+        "signal": "SIGSEGV (0xb)",
+        "problematic_frame": "v  ~StubRoutines::base64_decode",
+        "jre_version": "21.0.12+7",
+        "version_status": "VULN_RANGE",
+        "jvm_args": "-Xmx2g -jar /app/payments-api.jar",
+        "mitigation_present": false,
+        "explicitly_enabled": false,
+        "cpu_avx512_vbmi": true,
+        "base64_frames": [
+          "StubRoutines::base64_decode",
+          "java.util.Base64$Decoder.decode0(byte[], int, int, byte[])"
+        ],
+        "heap_corruption_markers": [
+          "guarantee(_mark->is_marked()) failed",
+          "Internal Error (oop.inline.hpp)"
+        ],
+        "verdict": "LIKELY",
+        "score": 8,
+        "reasons": [
+          "SIGSEGV in Base64 decode stub frame",
+          "heap corruption markers present",
+          "JRE 21.0.12 in vulnerable range",
+          "no mitigation flag in jvm_args",
+          "CPU exposes avx512_vbmi"
+        ]
+      },
+      {
+        "file": "/var/log/payments-api/hs_err_pid1655.log",
+        "signal": "SIGSEGV (0xb)",
+        "problematic_frame": "J 4821 c2 com.acme.pay.webhook.SignatureVerifier.verify",
+        "jre_version": "21.0.12+7",
+        "version_status": "VULN_RANGE",
+        "jvm_args": "-Xmx2g -jar /app/payments-api.jar",
+        "mitigation_present": false,
+        "explicitly_enabled": false,
+        "cpu_avx512_vbmi": true,
+        "base64_frames": [
+          "java.util.Base64$Decoder.decode(java.lang.String)"
+        ],
+        "heap_corruption_markers": [],
+        "verdict": "POSSIBLE",
+        "score": 4,
+        "reasons": [
+          "Base64 decoder in stack",
+          "JRE in vulnerable range",
+          "no mitigation flag",
+          "no heap corruption marker"
+        ]
+      },
+      {
+        "file": "/var/log/batch/hs_err_pid877.log",
+        "signal": "SIGKILL",
+        "problematic_frame": null,
+        "jre_version": "17.0.9+9",
+        "version_status": "VULN_RANGE",
+        "jvm_args": "-Xmx8g -cp /opt/batch/lib/* com.acme.batch.NightlyReconciliation",
+        "mitigation_present": false,
+        "explicitly_enabled": false,
+        "cpu_avx512_vbmi": false,
+        "base64_frames": [],
+        "heap_corruption_markers": [],
+        "verdict": "UNLIKELY",
+        "score": 1,
+        "reasons": [
+          "OOM killer; no Base64 frames; CPU without VBMI"
+        ]
+      }
+    ],
+    "flagged_rows": [
+      {
+        "file": "/var/log/payments-api/hs_err_pid1702.log",
+        "signal": "SIGSEGV (0xb)",
+        "problematic_frame": "v  ~StubRoutines::base64_decode",
+        "jre_version": "21.0.12+7",
+        "version_status": "VULN_RANGE",
+        "jvm_args": "-Xmx2g -jar /app/payments-api.jar",
+        "mitigation_present": false,
+        "explicitly_enabled": false,
+        "cpu_avx512_vbmi": true,
+        "base64_frames": [
+          "StubRoutines::base64_decode",
+          "java.util.Base64$Decoder.decode0(byte[], int, int, byte[])"
+        ],
+        "heap_corruption_markers": [
+          "guarantee(_mark->is_marked()) failed",
+          "Internal Error (oop.inline.hpp)"
+        ],
+        "verdict": "LIKELY",
+        "score": 8,
+        "reasons": [
+          "SIGSEGV in Base64 decode stub frame",
+          "heap corruption markers present",
+          "JRE 21.0.12 in vulnerable range",
+          "no mitigation flag in jvm_args",
+          "CPU exposes avx512_vbmi"
+        ]
+      },
+      {
+        "file": "/var/log/payments-api/hs_err_pid1655.log",
+        "signal": "SIGSEGV (0xb)",
+        "problematic_frame": "J 4821 c2 com.acme.pay.webhook.SignatureVerifier.verify",
+        "jre_version": "21.0.12+7",
+        "version_status": "VULN_RANGE",
+        "jvm_args": "-Xmx2g -jar /app/payments-api.jar",
+        "mitigation_present": false,
+        "explicitly_enabled": false,
+        "cpu_avx512_vbmi": true,
+        "base64_frames": [
+          "java.util.Base64$Decoder.decode(java.lang.String)"
+        ],
+        "heap_corruption_markers": [],
+        "verdict": "POSSIBLE",
+        "score": 4,
+        "reasons": [
+          "Base64 decoder in stack",
+          "JRE in vulnerable range",
+          "no mitigation flag",
+          "no heap corruption marker"
+        ]
+      }
+    ],
+    "hosts_unmitigated": 2
+  },
+  "traffic": {
+    "available": true,
+    "tokens": 5,
+    "suspicious": 3,
+    "jwt_like": 1,
+    "edge_rule_counts": {
+      "J4S-EDGE-01": 1,
+      "J4S-EDGE-02": 1,
+      "J4S-EDGE-03": 1
+    },
+    "rows": [
+      {
+        "line": 48213,
+        "token": "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVowMTIz\u2026",
+        "length": 76,
+        "pad_count": 4,
+        "edge_rules": "J4S-EDGE-01",
+        "anomalies": "excess_padding",
+        "suspicious": true,
+        "jwt": false
+      },
+      {
+        "line": 48214,
+        "token": "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVowMTIz\u2026",
+        "length": 75,
+        "pad_count": 1,
+        "edge_rules": "J4S-EDGE-02",
+        "anomalies": "padding_inside_body",
+        "suspicious": true,
+        "jwt": false
+      },
+      {
+        "line": 48219,
+        "token": "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVowMTIz\u2026",
+        "length": 89,
+        "pad_count": 1,
+        "edge_rules": "J4S-EDGE-03",
+        "anomalies": "length_not_multiple_of_4",
+        "suspicious": true,
+        "jwt": false
+      }
+    ],
+    "edge01": 1,
+    "edge02": 1,
+    "edge03": 1
+  },
+  "extra": {
+    "_note": "SYNTHETIC EXAMPLE narrative merged under facts.extra. Everything here is typed by the report author, not measured.",
+    "gate_target_date": "2026-12-05",
+    "max_files": 80,
+    "decisions": [
+      {
+        "title": "Emergency change window",
+        "ask": "Approve out-of-hours restart of payments-api on web-01 to apply the flag today",
+        "owner": "Head of Payments Engineering",
+        "by": "2026-11-24"
+      },
+      {
+        "title": "Accept temporary latency",
+        "ask": "Accept up to +8% p99 on /authorize while the flag is active (measured in staging)",
+        "owner": "Payments product owner",
+        "by": "2026-11-25"
+      },
+      {
+        "title": "Fund legacy-sso migration",
+        "ask": "JDK 19 has no patch; approve 3 engineer-weeks to move legacy-sso to JDK 21 or retire it",
+        "owner": "CTO",
+        "by": "2026-12-01"
+      }
+    ],
+    "milestones": [
+      {
+        "item": "Edge rules EDGE-01/02 to block mode on api.acme.example",
+        "date": "2026-11-26",
+        "status": "count mode, 0 false positives so far"
+      },
+      {
+        "item": "legacy-sso migration plan",
+        "date": "2026-12-01",
+        "status": "not started"
+      }
+    ],
+    "steps": {
+      "1": "done",
+      "2": "done",
+      "3": "done for payments-api; 4 repos pending",
+      "4": "done for payments-api",
+      "5": "in progress (1 of 2 exposed JVMs)",
+      "6": "in progress",
+      "7": "not started"
+    },
+    "business_units": [
+      {
+        "name": "Payments",
+        "services": 3,
+        "exposed": 1,
+        "mitigated": 1,
+        "patched": 1,
+        "owner": "J. Rivera",
+        "due": "2026-11-24",
+        "status": "RED"
+      },
+      {
+        "name": "Identity",
+        "services": 1,
+        "exposed": 0,
+        "mitigated": 0,
+        "patched": 0,
+        "owner": "P. Okafor",
+        "due": "2026-12-01",
+        "status": "RED (re-enabled flag, EOL JDK 19)"
+      },
+      {
+        "name": "Finance Ops",
+        "services": 2,
+        "exposed": 0,
+        "mitigated": 0,
+        "patched": 1,
+        "owner": "M. Chen",
+        "due": "2026-12-17",
+        "status": "AMBER"
+      }
+    ],
+    "blockers": [
+      {
+        "item": "legacy-sso owner team disbanded",
+        "impact": "no one can change the Kubernetes manifest that re-enables the intrinsic",
+        "owner": "CTO office",
+        "needed": "named owner by 2026-11-25"
+      },
+      {
+        "item": "report-renderer gate failing on floating tag",
+        "impact": "releases blocked until the tag is pinned",
+        "owner": "Finance Ops platform",
+        "needed": "pin eclipse-temurin:25.0.5.1_2-jre"
+      }
+    ],
+    "exceptions": [
+      {
+        "service": "batch-recon (batch-02)",
+        "reason": "runs on a CPU without AVX-512 VBMI; nightly job, internal input only",
+        "control": "host pinned to non-VBMI node pool; patch scheduled 2026-12-10",
+        "approver": "CISO",
+        "approved": "2026-11-23",
+        "expires": "2026-12-17"
+      }
+    ],
+    "side_effects": {
+      "perf": "+6% p99 on auth-gateway /token after flag (staging 24h); CPU +3%",
+      "edge": "count mode: 3 suspicious hits, 0 false positives in 48h",
+      "propagation": "metrics-agent on web-01 also picked up JAVA_TOOL_OPTIONS (harmless)",
+      "upgrade": "notifications upgraded to 21.0.13.1 without regression; legacy-sso has no patch",
+      "gate": "1 false positive reclassified (Helm values flag not seen by Dockerfile check)"
+    },
+    "service": {
+      "name": "payments-api",
+      "owner": "J. Rivera (Payments Engineering)",
+      "tier": "1 (customer-facing, PCI)",
+      "runtime": "ghcr.io/acme/payments-api:2.14.0 on eclipse-temurin:21.0.12_7-jre-jammy, Kubernetes prod/payments, nodes Ice Lake",
+      "internet_facing": "yes",
+      "preauth_surface": "HTTP Basic on /authorize, webhook signature header"
+    },
+    "repo": "acme/payments-api",
+    "pr": {
+      "number": 1187,
+      "branch": "fix/java4shell-flag-and-validation"
+    },
+    "pipeline": {
+      "name": "payments-api release",
+      "ref": "refs/heads/main",
+      "run": "#2291"
+    },
+    "incident": {
+      "id": "INC-2026-1142",
+      "severity": "SEV-1",
+      "opened": "2026-11-23 22:14 UTC",
+      "commander": "SOC lead on duty",
+      "state": "containment",
+      "affected": "web-01 / payments-api (2 crashes), edge api.acme.example",
+      "timeline": [
+        {
+          "time": "2026-11-23 21:58",
+          "event": "3 requests with malformed Base64 Authorization headers from one IP",
+          "source": "nginx access log lines 48213-48219"
+        },
+        {
+          "time": "2026-11-23 22:01",
+          "event": "payments-api PID 1702 crashes, SIGSEGV in base64_decode stub",
+          "source": "hs_err_pid1702.log"
+        },
+        {
+          "time": "2026-11-23 22:03",
+          "event": "container restarted by kubelet; second crash 22:09 (PID 1655)",
+          "source": "kube events, hs_err_pid1655.log"
+        },
+        {
+          "time": "2026-11-23 22:14",
+          "event": "SOC opens INC-2026-1142; flag applied to payments-api 22:40",
+          "source": "incident channel"
+        }
+      ],
+      "iocs": [
+        "Source IP 203.0.113.57 (RFC 5737 documentation range, placeholder)",
+        "Authorization: Basic <76-char token ending ====>",
+        "hs_err problematic frame StubRoutines::base64_decode"
+      ]
+    },
+    "containment": {
+      "flag": "done 2026-11-23 22:40",
+      "edge": "EDGE-01/02 blocking on /authorize since 23:05",
+      "preserve": "done (S3 forensics bucket)",
+      "rotate": "in progress (JWT signing key rotated; DB creds pending)",
+      "hunt": "in progress",
+      "patch": "scheduled 2026-11-25"
+    },
+    "edge": {
+      "mode": "count (block on /authorize only)",
+      "rules": [
+        {
+          "deployment": "nginx api.acme.example",
+          "rule": "map $http_authorization (EDGE-01/02/03)",
+          "mode": "block on /authorize, count elsewhere",
+          "hits": 3,
+          "blocked": 2,
+          "false_positives": 0,
+          "decision": "promote EDGE-01/02 to block on all routes 2026-11-26"
+        },
+        {
+          "deployment": "Envoy internal mesh",
+          "rule": "Lua filter auth + body",
+          "mode": "log",
+          "hits": 0,
+          "blocked": 0,
+          "false_positives": 0,
+          "decision": "keep log mode"
+        },
+        {
+          "deployment": "AWS WAFv2 public ALB",
+          "rule": "Java4ShellMalformedBase64PatternSet",
+          "mode": "COUNT",
+          "hits": 11,
+          "blocked": 0,
+          "false_positives": 8,
+          "decision": "EDGE-03 body rule too noisy on SAML POST; scope to non-SAML routes"
+        }
+      ],
+      "fp_samples": [
+        {
+          "route": "/saml/acs",
+          "sample": "SAMLResponse=PHNhbWxwOlJlc3Bvbn...Pg== (MIME line-wrapped)",
+          "rule": "J4S-EDGE-03",
+          "legit": true,
+          "fix": "exclude /saml/acs from the body rule; SAML is validated by the IdP signature"
+        },
+        {
+          "route": "/api/v1/files",
+          "sample": "multipart body containing base64 image with trailing =",
+          "rule": "J4S-EDGE-03",
+          "legit": true,
+          "fix": "size window: skip bodies > 64 KiB (EDGE-05)"
+        }
+      ]
+    },
+    "attestation": {
+      "images": "4 images in ghcr.io/acme, 3 verified by digest",
+      "validation_added": "payments-api PR #1187 (merged 2026-11-24)",
+      "evidence": [
+        {
+          "item": "Host audits web-01, batch-02",
+          "tool": "scripts/audit_java4shell.py",
+          "location": "s3://acme-sec-evidence/j4s/audits/ (sha256 in manifest)",
+          "date": "2026-11-24"
+        },
+        {
+          "item": "GitHub estate scan org:acme",
+          "tool": "github/gh_j4s_scan.py",
+          "location": "s3://acme-sec-evidence/j4s/estate.json",
+          "date": "2026-11-24"
+        },
+        {
+          "item": "Incident INC-2026-1142 record",
+          "tool": "SOC case system",
+          "location": "case INC-2026-1142",
+          "date": "2026-11-23"
+        }
+      ],
+      "signatories": [
+        {
+          "role": "CISO / risk owner",
+          "name": "A. Novak"
+        },
+        {
+          "role": "Head of platform engineering",
+          "name": "D. Sato"
+        },
+        {
+          "role": "Internal audit (witness)",
+          "name": "L. Haddad"
+        }
+      ]
+    },
+    "k8s": [
+      {
+        "workload": "prod/payments/payments-api",
+        "container": "app",
+        "image": "ghcr.io/acme/payments-api:2.14.0",
+        "version_status": "VULN_RANGE (base 21.0.12)",
+        "flag": "PRESENT since 2026-11-23",
+        "arch": "amd64 (Ice Lake)"
+      },
+      {
+        "workload": "prod/identity/legacy-sso",
+        "container": "sso",
+        "image": "openjdk:19-jdk",
+        "version_status": "VULN_RANGE (EOL 19)",
+        "flag": "EXPLICITLY_ENABLED",
+        "arch": "amd64 (Sapphire Rapids)"
+      }
+    ],
+    "code_search": [
+      {
+        "set": "decoder",
+        "hits": 23,
+        "repos": 5,
+        "blocking": 2
+      },
+      {
+        "set": "flags",
+        "hits": 6,
+        "repos": 4,
+        "blocking": 1
+      },
+      {
+        "set": "images",
+        "hits": 7,
+        "repos": 6,
+        "blocking": 3
+      },
+      {
+        "set": "oracle8",
+        "hits": 0,
+        "repos": 0,
+        "blocking": 0
+      }
+    ]
+  },
+  "status": {
+    "rag": "RED",
+    "red": true,
+    "amber": false,
+    "green": false,
+    "reasons": [
+      "1 JVM(s) exposed on AVX-512 VBMI hosts without patch or flag",
+      "2 repositor(ies) deploy a vulnerable JDK without the mitigation flag or re-enable the intrinsic",
+      "1 crash file(s) triaged LIKELY Java4Shell",
+      "1 repositor(ies) re-enable the intrinsic through Actions variables",
+      "1 unverified and 1 flag-mitigated JVM(s) still on vulnerable versions",
+      "2 repositor(ies) unverified, 1 mitigated by flag only",
+      "2 production call site(s) decode untrusted Base64",
+      "CI gate failing with 4 violation(s)",
+      "1 crash file(s) triaged POSSIBLE",
+      "3 suspicious malformed-Base64 token(s) in traffic"
+    ]
+  },
+  "actions": [
+    "Apply -XX:-UseBASE64Intrinsics to 1 exposed JVM(s) on VBMI hosts now (JAVA_TOOL_OPTIONS or launch args) and confirm with jcmd VM.flags.",
+    "Set JAVA_TOOL_OPTIONS=-XX:-UseBASE64Intrinsics in the runtime definition of 1 repositor(ies) and open upgrade PRs to 17.0.21.0.3+ / 21.0.13.1+ / 25.0.5.1+ / 27.0.1.1+.",
+    "Remove every -XX:+UseBASE64Intrinsics (J4S-FLAG-04) from manifests, start scripts and Actions variables.",
+    "Patch 1 JVM(s) on vulnerable versions that sit on non-VBMI CPUs before workloads move to Ice Lake / Zen 4 class hardware.",
+    "Schedule JDK upgrades for the 1 JVM(s) and 1 repositor(ies) that rely on the flag; keep the flag until java -version shows the baseline.",
+    "Resolve 1 floating image/package pin(s) to exact versions (docker run IMAGE java -version) and pin digests.",
+    "Locate the runtime for 1 Java repositor(ies) without a pin (platform image, host JDK, Helm values repo) and audit it with verify_java4shell_runtime.sh.",
+    "Add strict Base64 validation (length multiple of 4, no mid-string '=', at most two pads) before the 2 untrusted decode call site(s).",
+    "Add gate_cve_2026_114938.py to the pipelines of 3 Java repositor(ies) and make the check required on the default branch.",
+    "Resolve 4 CI gate violation(s) before the next release.",
+    "Treat LIKELY/POSSIBLE crash files as exploitation attempts: preserve hs_err and heap dumps, rotate secrets resident in those JVMs, correlate with edge hits.",
+    "Move edge rules J4S-EDGE-01/02 from count to block for routes that received suspicious tokens; keep EDGE-03 in count mode until false positives are tuned."
+  ],
+  "inputs": {
+    "audit": [
+      "/Users/rcmarte/.copilot/repos/runbook_remediation_verification_cve_2026_114938_java4shell/report-template/examples/data/audit-web-01.json",
+      "/Users/rcmarte/.copilot/repos/runbook_remediation_verification_cve_2026_114938_java4shell/report-template/examples/data/audit-batch-02.json"
+    ],
+    "audit_before": [
+      "/Users/rcmarte/.copilot/repos/runbook_remediation_verification_cve_2026_114938_java4shell/report-template/examples/data/before/audit-web-01.json"
+    ],
+    "gh_scan": "/Users/rcmarte/.copilot/repos/runbook_remediation_verification_cve_2026_114938_java4shell/report-template/examples/data/estate.json",
+    "actions": "/Users/rcmarte/.copilot/repos/runbook_remediation_verification_cve_2026_114938_java4shell/report-template/examples/data/posture.tsv",
+    "source": "/Users/rcmarte/.copilot/repos/runbook_remediation_verification_cve_2026_114938_java4shell/report-template/examples/data/src.json",
+    "jars": "/Users/rcmarte/.copilot/repos/runbook_remediation_verification_cve_2026_114938_java4shell/report-template/examples/data/findings.jsonl",
+    "gate": "/Users/rcmarte/.copilot/repos/runbook_remediation_verification_cve_2026_114938_java4shell/report-template/examples/data/gate.log",
+    "crashes": "/Users/rcmarte/.copilot/repos/runbook_remediation_verification_cve_2026_114938_java4shell/report-template/examples/data/crashes.json",
+    "b64": "/Users/rcmarte/.copilot/repos/runbook_remediation_verification_cve_2026_114938_java4shell/report-template/examples/data/traffic.json",
+    "extra": "/Users/rcmarte/.copilot/repos/runbook_remediation_verification_cve_2026_114938_java4shell/report-template/examples/data/narrative.json"
+  }
+}

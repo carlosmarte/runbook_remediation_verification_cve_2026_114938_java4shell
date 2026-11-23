@@ -1,0 +1,16 @@
+[
+  {"file": "/var/log/payments-api/hs_err_pid1702.log", "signal": "SIGSEGV (0xb)", "problematic_frame": "v  ~StubRoutines::base64_decode", "jre_version": "21.0.12+7", "version_status": "VULN_RANGE",
+   "jvm_args": "-Xmx2g -jar /app/payments-api.jar", "mitigation_present": false, "explicitly_enabled": false, "cpu_avx512_vbmi": true,
+   "base64_frames": ["StubRoutines::base64_decode", "java.util.Base64$Decoder.decode0(byte[], int, int, byte[])"],
+   "heap_corruption_markers": ["guarantee(_mark->is_marked()) failed", "Internal Error (oop.inline.hpp)"],
+   "verdict": "LIKELY", "score": 8,
+   "reasons": ["SIGSEGV in Base64 decode stub frame", "heap corruption markers present", "JRE 21.0.12 in vulnerable range", "no mitigation flag in jvm_args", "CPU exposes avx512_vbmi"]},
+  {"file": "/var/log/payments-api/hs_err_pid1655.log", "signal": "SIGSEGV (0xb)", "problematic_frame": "J 4821 c2 com.acme.pay.webhook.SignatureVerifier.verify", "jre_version": "21.0.12+7", "version_status": "VULN_RANGE",
+   "jvm_args": "-Xmx2g -jar /app/payments-api.jar", "mitigation_present": false, "explicitly_enabled": false, "cpu_avx512_vbmi": true,
+   "base64_frames": ["java.util.Base64$Decoder.decode(java.lang.String)"], "heap_corruption_markers": [],
+   "verdict": "POSSIBLE", "score": 4,
+   "reasons": ["Base64 decoder in stack", "JRE in vulnerable range", "no mitigation flag", "no heap corruption marker"]},
+  {"file": "/var/log/batch/hs_err_pid877.log", "signal": "SIGKILL", "problematic_frame": null, "jre_version": "17.0.9+9", "version_status": "VULN_RANGE",
+   "jvm_args": "-Xmx8g -cp /opt/batch/lib/* com.acme.batch.NightlyReconciliation", "mitigation_present": false, "explicitly_enabled": false, "cpu_avx512_vbmi": false,
+   "base64_frames": [], "heap_corruption_markers": [], "verdict": "UNLIKELY", "score": 1, "reasons": ["OOM killer; no Base64 frames; CPU without VBMI"]}
+]

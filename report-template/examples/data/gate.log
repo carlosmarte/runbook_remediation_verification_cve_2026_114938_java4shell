@@ -1,0 +1,5 @@
+POLICY GATE FAILED (CVE-2026-114938 / Java4Shell):
+  - [Dockerfile:payments-api/Dockerfile] JDK 21.0.12 (< 21.0.13.1) is unpatched
+  - [Dockerfile:payments-api/Dockerfile] Missing -XX:-UseBASE64Intrinsics (or -XX:UseAVX=0..2) in ENV/ENTRYPOINT/CMD
+  - [Manifest:payments-api/deploy/k8s/deployment.yaml] JVM workload missing -XX:-UseBASE64Intrinsics (e.g., via JAVA_TOOL_OPTIONS or container args)
+  - [Reachability:reachability-findings.json] J4S-0001 is REACHABLE_HIGH in com.acme.pay.auth.BasicAuthFilter.doFilter (payments-api/build/libs/payments-api-2.14.0.jar)

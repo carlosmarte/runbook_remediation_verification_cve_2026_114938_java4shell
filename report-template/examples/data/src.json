@@ -1,0 +1,24 @@
+{
+  "_note": "SYNTHETIC EXAMPLE DATA for report templates. Shape of scripts/scan_java4shell_source.py --json for acme/payments-api.",
+  "cve": "CVE-2026-114938",
+  "root": "payments-api/src",
+  "total": 4,
+  "dynamic_untrusted": 2,
+  "findings": [
+    {"file": "main/java/com/acme/pay/auth/BasicAuthFilter.java", "line": 48, "column": 22, "call": "Base64.getDecoder().decode", "argument": "authorization.substring(6)", "input_kind": "DYNAMIC_UNTRUSTED",
+     "sources": ["getHeader(\"Authorization\")"], "preauth_context": true, "is_test": false,
+     "reason": "argument derives from request header Authorization (J4S-SRC-03) in a servlet filter before authentication (J4S-SRC-04)",
+     "remediation": "Validate length %4, padding count <=2 and no mid-string '=' before decode; apply -XX:-UseBASE64Intrinsics; upgrade JDK"},
+    {"file": "main/java/com/acme/pay/webhook/SignatureVerifier.java", "line": 77, "column": 18, "call": "Base64.getDecoder().decode", "argument": "header", "input_kind": "DYNAMIC_UNTRUSTED",
+     "sources": ["getHeader(\"X-Signature\")"], "preauth_context": false, "is_test": false,
+     "reason": "argument derives from request header X-Signature (J4S-SRC-03)",
+     "remediation": "Validate before decode; compare signature length to the expected digest length first"},
+    {"file": "main/java/com/acme/pay/config/KeyLoader.java", "line": 31, "column": 30, "call": "Base64.getMimeDecoder().decode", "argument": "pem", "input_kind": "DYNAMIC_INTERNAL",
+     "sources": ["Files.readString(keyPath)"], "preauth_context": false, "is_test": false,
+     "reason": "argument read from a configured file path at start-up; operator-controlled",
+     "remediation": "Low priority; covered by the runtime flag/upgrade"},
+    {"file": "test/java/com/acme/pay/auth/BasicAuthFilterTest.java", "line": 59, "column": 20, "call": "Base64.getDecoder().decode", "argument": "\"dXNlcjpwYXNz\"", "input_kind": "CONSTANT",
+     "sources": [], "preauth_context": false, "is_test": true,
+     "reason": "string literal argument in test code", "remediation": "none"}
+  ]
+}

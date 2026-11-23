@@ -1,0 +1,17 @@
+{
+  "_note": "SYNTHETIC EXAMPLE DATA for report templates. Shape of scripts/audit_java4shell.py --pretty. Fictional host without AVX-512 VBMI.",
+  "cve": "CVE-2026-114938",
+  "alias": "Java4Shell",
+  "host": "batch-02.prod.acme.example",
+  "cpu": {"arch": "x86_64", "avx512_vbmi": false, "avx512_vbmi2": false, "avx512_flags_sample": ["avx512f", "avx512bw"]},
+  "summary": {"total_jvms_found": 2, "exposed_on_vbmi_host": 0, "missing_mitigation_flag": 1},
+  "jvm_processes": [
+    {"pid": 912, "source": "host", "jvm_lib_path": "/usr/lib/jvm/java-17-amazon-corretto/lib/server/libjvm.so", "java_binary": "/usr/lib/jvm/java-17-amazon-corretto/bin/java",
+     "version_output": "openjdk version \"17.0.9\" 2023-10-17 LTS", "parsed_version": "17.0.9",
+     "version_status": "VULN_RANGE", "flag_status": "MISSING_FLAG", "cmdline": "java -Xmx8g -cp /opt/batch/lib/* com.acme.batch.NightlyReconciliation", "exposure_verdict": "UNVERIFIED_ON_HOST"},
+    {"pid": 1401, "source": "container:report-renderer", "jvm_lib_path": "/opt/java/openjdk/lib/server/libjvm.so", "java_binary": "/opt/java/openjdk/bin/java",
+     "version_output": "openjdk version \"25.0.5.1\" 2026-11-18", "parsed_version": "25.0.5.1",
+     "version_status": "PATCHED_OR_UNAFFECTED", "flag_status": "MITIGATED_FLAG", "cmdline": "java -XX:-UseBASE64Intrinsics -jar /app/report-renderer.jar", "exposure_verdict": "PATCHED_OR_SAFE_VERSION"}
+  ],
+  "containers": [{"id": "c0ffee", "name": "report-renderer", "image": "ghcr.io/acme/report-renderer:1.8.3", "pids": [1401]}]
+}

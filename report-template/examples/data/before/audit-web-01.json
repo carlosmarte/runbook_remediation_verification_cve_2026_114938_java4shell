@@ -1,0 +1,20 @@
+{
+  "_note": "SYNTHETIC EXAMPLE DATA: earlier run of the same host (day 2), used for the trend section.",
+  "cve": "CVE-2026-114938",
+  "alias": "Java4Shell",
+  "host": "web-01.prod.acme.example",
+  "cpu": {"arch": "x86_64", "avx512_vbmi": true, "avx512_vbmi2": true, "avx512_flags_sample": ["avx512_vbmi", "avx512_vbmi2"]},
+  "summary": {"total_jvms_found": 3, "exposed_on_vbmi_host": 3, "missing_mitigation_flag": 3},
+  "jvm_processes": [
+    {"pid": 1702, "source": "container:payments-api", "jvm_lib_path": "/opt/java/openjdk/lib/server/libjvm.so", "java_binary": "/opt/java/openjdk/bin/java",
+     "version_output": "openjdk version \"21.0.12\"", "parsed_version": "21.0.12", "version_status": "VULN_RANGE", "flag_status": "MISSING_FLAG",
+     "cmdline": "java -Xmx2g -jar /app/payments-api.jar", "exposure_verdict": "EXPOSED_ON_VBMI_HOST"},
+    {"pid": 2004, "source": "container:auth-gateway", "jvm_lib_path": "/opt/java/openjdk/lib/server/libjvm.so", "java_binary": "/opt/java/openjdk/bin/java",
+     "version_output": "openjdk version \"21.0.12\"", "parsed_version": "21.0.12", "version_status": "VULN_RANGE", "flag_status": "MISSING_FLAG",
+     "cmdline": "java -Xmx1g -jar /app/auth-gateway.jar", "exposure_verdict": "EXPOSED_ON_VBMI_HOST"},
+    {"pid": 2990, "source": "host", "jvm_lib_path": "/usr/lib/jvm/temurin-21-jdk/lib/server/libjvm.so", "java_binary": "/usr/lib/jvm/temurin-21-jdk/bin/java",
+     "version_output": "openjdk version \"21.0.12\"", "parsed_version": "21.0.12", "version_status": "VULN_RANGE", "flag_status": "MISSING_FLAG",
+     "cmdline": "/usr/lib/jvm/temurin-21-jdk/bin/java -jar /opt/agent/metrics-agent.jar", "exposure_verdict": "EXPOSED_ON_VBMI_HOST"}
+  ],
+  "containers": []
+}

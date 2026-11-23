@@ -1,0 +1,7 @@
+REPO	LANG	ARCHIVED	BRANCH	GATE_WORKFLOW	GATE_LAST_RUN	GATE_REQUIRED	VAR_FLAG	CODE_SCANNING	DEPENDABOT	TRACKING
+acme/payments-api	Java	false	main	none	none	no	MISSING	2	0	1i/1pr
+acme/legacy-sso	Java	false	master	none	none	unknown	EXPLICITLY_ENABLED	n/a	n/a	0i/0pr
+acme/auth-gateway	Kotlin	false	main	cve-2026-114938-gate.yml	success 2026-11-23 main	yes	ACTIVE	0	0	1i/0pr
+acme/report-renderer	Java	false	main	cve-2026-114938-gate.yml	failure 2026-11-22 main	no	NONE	0	0	0i/1pr
+acme/batch-recon	Java	false	main	none	none	no	NONE	n/a	0	0i/0pr
+acme/notifications	Java	false	main	cve-2026-114938-gate.yml	success 2026-11-21 main	yes	NONE	0	0	0i/0pr

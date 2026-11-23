@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# j4s - single entry point for the CVE-2026-114938 (Java4Shell) helpers and detection scripts.
+#   helpers/j4s <command> [args]     (add helpers/ to PATH to call `j4s` directly)
+set -u
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPTS="$(cd "$HERE/.." && pwd)/scripts"
+GITHUB="$(cd "$HERE/.." && pwd)/github"
+REPORTS="$(cd "$HERE/.." && pwd)/report-template"
+
+usage() {
+  cat <<U
+j4s - CVE-2026-114938 (Java4Shell) toolkit
+
+Detection (scripts/)
+  verify [args]            live, non-intrusive host check (CPU, JVMs, Docker, K8s, jcmd)
+  audit [--pretty]         fleet audit as JSON (text: audit-sh)
+  scan-src <root> [args]   Base64 decode call sites in source, with input provenance
+  scan-jars <paths> [args] java.util.Base64 references in .class/.jar/.war/.ear
+  gate [args]              CI/CD policy gate (versions, flags, reachability)
+
+Investigation (helpers/)
+  version <ver...>         classify JDK versions / baselines    (also: version table|baseline N|parse-output)
+  b64 token|scan|headers   analyze Base64 tokens, logs, Authorization headers for the trigger shape
+  hs-err <files>           triage hs_err_pid*.log crash files
+  proc cpu|list|report...  per-PID investigation on a Linux host
+  k8s pods|images|missing  Kubernetes read-only inventory
+
+Remediation (helpers/)
+  flag has|add|remove|snippet|k8s-apply|k8s-verify    manage -XX:-UseBASE64Intrinsics
+
+Reporting (helpers/)
+  inventory merge|rank|summary|diff   fleet audit JSON -> CSV/JSON/progress diff
+  report [--audit ...] [--jars ...]   consolidated Markdown/JSON/HTML status report
+
+GitHub, no clone needed (github/)
+  gh-repos --user U|--org O|--me      discover repositories (JVM languages, topics, dates) -> owner/repo list
+  gh-scan [repos|-] [--user U]        remote scan: JDK pins, mitigation flag, CI gate, source hits -> verdict per repo
+  gh-search --org O [--set ...]       code-search sweep for the runbook patterns, verified with line numbers
+  gh-actions [repos|-] [--org O]      CI/CD posture: gate workflow + runs, required checks, Actions vars, alerts
+
+Report templates (report-template/)
+  facts --audit ... --gh-scan ...     merge scanner evidence into facts.json (RAG, insights, SLA, actions)
+  render TEMPLATE facts.json [-o F]   fill one of report-template/templates/R0..R10 with facts.json
+U
+}
+
+cmd="${1:-}"; shift || true
+case "$cmd" in
+  verify)     exec "$SCRIPTS/verify_java4shell_runtime.sh" "$@" ;;
+  audit)      exec "$SCRIPTS/audit_java4shell.py" "$@" ;;
+  audit-sh)   exec "$SCRIPTS/audit_java4shell.sh" "$@" ;;
+  scan-src)   exec "$SCRIPTS/scan_java4shell_source.py" "$@" ;;
+  scan-jars)  exec "$SCRIPTS/scan_java4shell_jars.py" "$@" ;;
+  gate)       exec "$SCRIPTS/gate_cve_2026_114938.py" "$@" ;;
+  version)    exec "$HERE/j4s_version.py" "$@" ;;
+  b64)        exec "$HERE/j4s_b64check.py" "$@" ;;
+  hs-err)     exec "$HERE/j4s_hs_err.py" "$@" ;;
+  proc)       exec "$HERE/j4s_proc.sh" "$@" ;;
+  k8s)        exec "$HERE/j4s_k8s.sh" "$@" ;;
+  flag)       exec "$HERE/j4s_flag.sh" "$@" ;;
+  inventory)  exec "$HERE/j4s_inventory.py" "$@" ;;
+  report)     exec "$HERE/j4s_report.py" "$@" ;;
+  gh-repos)   exec "$GITHUB/gh_j4s_repos.sh" "$@" ;;
+  gh-scan)    exec "$GITHUB/gh_j4s_scan.py" "$@" ;;
+  gh-search)  exec "$GITHUB/gh_j4s_code_search.py" "$@" ;;
+  gh-actions) exec "$GITHUB/gh_j4s_actions.sh" "$@" ;;
+  facts)      exec "$REPORTS/tools/j4s_facts.py" "$@" ;;
+  render)     exec "$REPORTS/tools/render.py" "$@" ;;
+  -h|--help|help|"") usage ;;
+  *) echo "unknown command: $cmd" >&2; usage >&2; exit 2 ;;
+esac

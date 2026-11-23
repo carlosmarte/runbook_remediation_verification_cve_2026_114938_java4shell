@@ -1,0 +1,68 @@
+{
+  "_note": "SYNTHETIC EXAMPLE narrative merged under facts.extra. Everything here is typed by the report author, not measured.",
+  "gate_target_date": "2026-12-05",
+  "max_files": 80,
+  "decisions": [
+    {"title": "Emergency change window", "ask": "Approve out-of-hours restart of payments-api on web-01 to apply the flag today", "owner": "Head of Payments Engineering", "by": "2026-11-24"},
+    {"title": "Accept temporary latency", "ask": "Accept up to +8% p99 on /authorize while the flag is active (measured in staging)", "owner": "Payments product owner", "by": "2026-11-25"},
+    {"title": "Fund legacy-sso migration", "ask": "JDK 19 has no patch; approve 3 engineer-weeks to move legacy-sso to JDK 21 or retire it", "owner": "CTO", "by": "2026-12-01"}
+  ],
+  "milestones": [
+    {"item": "Edge rules EDGE-01/02 to block mode on api.acme.example", "date": "2026-11-26", "status": "count mode, 0 false positives so far"},
+    {"item": "legacy-sso migration plan", "date": "2026-12-01", "status": "not started"}
+  ],
+  "steps": {"1": "done", "2": "done", "3": "done for payments-api; 4 repos pending", "4": "done for payments-api", "5": "in progress (1 of 2 exposed JVMs)", "6": "in progress", "7": "not started"},
+  "business_units": [
+    {"name": "Payments", "services": 3, "exposed": 1, "mitigated": 1, "patched": 1, "owner": "J. Rivera", "due": "2026-11-24", "status": "RED"},
+    {"name": "Identity", "services": 1, "exposed": 0, "mitigated": 0, "patched": 0, "owner": "P. Okafor", "due": "2026-12-01", "status": "RED (re-enabled flag, EOL JDK 19)"},
+    {"name": "Finance Ops", "services": 2, "exposed": 0, "mitigated": 0, "patched": 1, "owner": "M. Chen", "due": "2026-12-17", "status": "AMBER"}
+  ],
+  "blockers": [
+    {"item": "legacy-sso owner team disbanded", "impact": "no one can change the Kubernetes manifest that re-enables the intrinsic", "owner": "CTO office", "needed": "named owner by 2026-11-25"},
+    {"item": "report-renderer gate failing on floating tag", "impact": "releases blocked until the tag is pinned", "owner": "Finance Ops platform", "needed": "pin eclipse-temurin:25.0.5.1_2-jre"}
+  ],
+  "exceptions": [
+    {"service": "batch-recon (batch-02)", "reason": "runs on a CPU without AVX-512 VBMI; nightly job, internal input only", "control": "host pinned to non-VBMI node pool; patch scheduled 2026-12-10", "approver": "CISO", "approved": "2026-11-23", "expires": "2026-12-17"}
+  ],
+  "side_effects": {"perf": "+6% p99 on auth-gateway /token after flag (staging 24h); CPU +3%", "edge": "count mode: 3 suspicious hits, 0 false positives in 48h", "propagation": "metrics-agent on web-01 also picked up JAVA_TOOL_OPTIONS (harmless)", "upgrade": "notifications upgraded to 21.0.13.1 without regression; legacy-sso has no patch", "gate": "1 false positive reclassified (Helm values flag not seen by Dockerfile check)"},
+  "service": {"name": "payments-api", "owner": "J. Rivera (Payments Engineering)", "tier": "1 (customer-facing, PCI)", "runtime": "ghcr.io/acme/payments-api:2.14.0 on eclipse-temurin:21.0.12_7-jre-jammy, Kubernetes prod/payments, nodes Ice Lake", "internet_facing": "yes", "preauth_surface": "HTTP Basic on /authorize, webhook signature header"},
+  "repo": "acme/payments-api",
+  "pr": {"number": 1187, "branch": "fix/java4shell-flag-and-validation"},
+  "pipeline": {"name": "payments-api release", "ref": "refs/heads/main", "run": "#2291"},
+  "incident": {"id": "INC-2026-1142", "severity": "SEV-1", "opened": "2026-11-23 22:14 UTC", "commander": "SOC lead on duty", "state": "containment", "affected": "web-01 / payments-api (2 crashes), edge api.acme.example",
+    "timeline": [
+      {"time": "2026-11-23 21:58", "event": "3 requests with malformed Base64 Authorization headers from one IP", "source": "nginx access log lines 48213-48219"},
+      {"time": "2026-11-23 22:01", "event": "payments-api PID 1702 crashes, SIGSEGV in base64_decode stub", "source": "hs_err_pid1702.log"},
+      {"time": "2026-11-23 22:03", "event": "container restarted by kubelet; second crash 22:09 (PID 1655)", "source": "kube events, hs_err_pid1655.log"},
+      {"time": "2026-11-23 22:14", "event": "SOC opens INC-2026-1142; flag applied to payments-api 22:40", "source": "incident channel"}
+    ],
+    "iocs": ["Source IP 203.0.113.57 (RFC 5737 documentation range, placeholder)", "Authorization: Basic <76-char token ending ====>", "hs_err problematic frame StubRoutines::base64_decode"]},
+  "containment": {"flag": "done 2026-11-23 22:40", "edge": "EDGE-01/02 blocking on /authorize since 23:05", "preserve": "done (S3 forensics bucket)", "rotate": "in progress (JWT signing key rotated; DB creds pending)", "hunt": "in progress", "patch": "scheduled 2026-11-25"},
+  "edge": {"mode": "count (block on /authorize only)",
+    "rules": [
+      {"deployment": "nginx api.acme.example", "rule": "map $http_authorization (EDGE-01/02/03)", "mode": "block on /authorize, count elsewhere", "hits": 3, "blocked": 2, "false_positives": 0, "decision": "promote EDGE-01/02 to block on all routes 2026-11-26"},
+      {"deployment": "Envoy internal mesh", "rule": "Lua filter auth + body", "mode": "log", "hits": 0, "blocked": 0, "false_positives": 0, "decision": "keep log mode"},
+      {"deployment": "AWS WAFv2 public ALB", "rule": "Java4ShellMalformedBase64PatternSet", "mode": "COUNT", "hits": 11, "blocked": 0, "false_positives": 8, "decision": "EDGE-03 body rule too noisy on SAML POST; scope to non-SAML routes"}
+    ],
+    "fp_samples": [
+      {"route": "/saml/acs", "sample": "SAMLResponse=PHNhbWxwOlJlc3Bvbn...Pg== (MIME line-wrapped)", "rule": "J4S-EDGE-03", "legit": true, "fix": "exclude /saml/acs from the body rule; SAML is validated by the IdP signature"},
+      {"route": "/api/v1/files", "sample": "multipart body containing base64 image with trailing =", "rule": "J4S-EDGE-03", "legit": true, "fix": "size window: skip bodies > 64 KiB (EDGE-05)"}
+    ]},
+  "attestation": {"images": "4 images in ghcr.io/acme, 3 verified by digest", "validation_added": "payments-api PR #1187 (merged 2026-11-24)",
+    "evidence": [
+      {"item": "Host audits web-01, batch-02", "tool": "scripts/audit_java4shell.py", "location": "s3://acme-sec-evidence/j4s/audits/ (sha256 in manifest)", "date": "2026-11-24"},
+      {"item": "GitHub estate scan org:acme", "tool": "github/gh_j4s_scan.py", "location": "s3://acme-sec-evidence/j4s/estate.json", "date": "2026-11-24"},
+      {"item": "Incident INC-2026-1142 record", "tool": "SOC case system", "location": "case INC-2026-1142", "date": "2026-11-23"}
+    ],
+    "signatories": [{"role": "CISO / risk owner", "name": "A. Novak"}, {"role": "Head of platform engineering", "name": "D. Sato"}, {"role": "Internal audit (witness)", "name": "L. Haddad"}]},
+  "k8s": [
+    {"workload": "prod/payments/payments-api", "container": "app", "image": "ghcr.io/acme/payments-api:2.14.0", "version_status": "VULN_RANGE (base 21.0.12)", "flag": "PRESENT since 2026-11-23", "arch": "amd64 (Ice Lake)"},
+    {"workload": "prod/identity/legacy-sso", "container": "sso", "image": "openjdk:19-jdk", "version_status": "VULN_RANGE (EOL 19)", "flag": "EXPLICITLY_ENABLED", "arch": "amd64 (Sapphire Rapids)"}
+  ],
+  "code_search": [
+    {"set": "decoder", "hits": 23, "repos": 5, "blocking": 2},
+    {"set": "flags", "hits": 6, "repos": 4, "blocking": 1},
+    {"set": "images", "hits": 7, "repos": 6, "blocking": 3},
+    {"set": "oracle8", "hits": 0, "repos": 0, "blocking": 0}
+  ]
+}
